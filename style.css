@@ -1,0 +1,128 @@
+/* Estilos básicos para reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilo do corpo da página */
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #74ebd5 0%, #acb6e5 100%);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Container principal */
+.container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    text-align: center;
+}
+
+/* Título */
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+/* Estilo dos campos de formulário */
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+label {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+    display: block;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #74ebd5;
+}
+
+/* Alinhamento do checkbox e label */
+.checkbox-container {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.checkbox-label {
+    white-space: nowrap;
+    margin-left: 5px;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Estilo do botão */
+.submit-btn {
+    background-color: #74ebd5;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%;
+}
+
+.submit-btn:hover {
+    background-color: #57c6c7;
+    transform: translateY(-2px);
+}
+
+.submit-btn:active {
+    transform: translateY(0px);
+}
+
+/* Resultado das notas */
+.resultado {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    text-align: left;
+    font-size: 16px;
+    display: none;
+}
+
+.resultado p {
+    margin-bottom: 8px;
+}
+
+/* Estilo de erro */
+.resultado.error {
+    background-color: #ffdddd;
+    border-left: 4px solid #f44336;
+    color: #f44336;
+    display: block;
+}
+
+/* Mostrar resultado após consulta */
+.resultado p {
+    display: block;
+    color: #333;
+}
