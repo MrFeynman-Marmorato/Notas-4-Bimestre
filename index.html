@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Notas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Consulta de Notas do Aluno</h1>
+        <form id="notaForm">
+            <div class="form-group">
+                <label for="serie">Série:</label>
+                <select id="serie" name="serie" required>
+                    <option value="FÍS 1ºA">Física 1ºA</option>
+                    <option value="FÍS 1ºB">Física 1ºB</option>
+                    <option value="FÍS 2ºA">Física 2ºA</option>
+                    <option value="FÍS 2ºB">Física 2ºB</option>
+                    <option value="FÍS 3ºA">Física 3ºA</option>
+                    <option value="FÍS 3ºB">Física 3ºB</option>
+                    <option value="Tec 7ºA">Tecnologia 7ºA</option>
+                    <option value="Tec 8ºA">Tecnologia 8ºA</option>
+                    <option value="Tec 9ºA">Tecnologia 9ºA</option>
+                    <option value="Tec 9ºB">Tecnologia 9ºB</option>
+                    <option value="Tec 1ºA">Tecnologia 1ºA</option>
+                    <option value="Tec 1ºB">Tecnologia 1ºB</option>
+                    <option value="Tec 2ºA">Tecnologia 2ºA</option>
+                    <option value="Tec 3ºA">Tecnologia 3ºA</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="registro">Registro do Aluno:</label>
+                <input type="text" id="registro" name="registro" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="senha">Senha:</label>
+                <input type="password" id="senha" name="senha" required>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="showPassword" onclick="togglePassword()">
+                    <label for="showPassword" class="checkbox-label">Mostrar Senha</label>
+                </div>
+            </div>
+
+            <button type="button" class="submit-btn" onclick="consultarNota()">Consultar Notas</button>
+        </form>
+
+        <div id="resultado" class="resultado"></div>
+    </div>
+
+    <script>
+        const urlAPI = "https://script.google.com/macros/s/AKfycbzNyYM38hDin4GwO4LA4J3gr6LWvK8UAsiKildhCEek33178K8NC0PGP65g4tQup06JQA/exec"; // URL do script implantado
+
+        function togglePassword() {
+            const passwordField = document.getElementById('senha');
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+            } else {
+                passwordField.type = 'password';
+            }
+        }
+
+         // Função para consultar as notas e exibir o resultado
+        function consultarNota() {
+            const serie = document.getElementById("serie").value;
+            const registro = document.getElementById("registro").value;
+            const senha = document.getElementById("senha").value;
+
+            // Fazendo a requisição para o Google Apps Script
+            fetch(`${urlAPI}?serie=${encodeURIComponent(serie)}&registro=${encodeURIComponent(registro)}&senha=${encodeURIComponent(senha)}`)
+                .then(response => response.json()) // Converte a resposta para JSON
+                .then(data => {
+                    let resultadoDiv = document.getElementById("resultado");
+                    resultadoDiv.innerHTML = ''; // Limpa o resultado anterior
+
+                    // Verifica se houve erro na consulta
+                    if (data.error) {
+                        resultadoDiv.innerText = `Erro: ${data.error}`;
+                        resultadoDiv.classList.add('error');
+                        resultadoDiv.style.display = 'block'; // Mostra o container de erro
+                    } else {
+                        resultadoDiv.classList.remove('error');
+                        resultadoDiv.style.display = 'block'; // Mostra o container de resultado
+
+                        // Exibe as notas dinamicamente com 2 casas decimais
+                        for (let key in data) {
+                            let notaElement = document.createElement("p");
+                            if (key.includes("Média")) {
+                                // Arredondar a média para o inteiro mais próximo
+                                notaElement.innerText = `${key}: ${Math.round(data[key])}`;
+                            } else {
+                                // Exibir as notas com 2 casas decimais
+                                notaElement.innerText = `${key}: ${parseFloat(data[key]).toFixed(2)}`;
+                            }
+                            resultadoDiv.appendChild(notaElement);
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao consultar as notas:', error);
+                    let resultadoDiv = document.getElementById("resultado");
+                    resultadoDiv.innerText = "Erro ao consultar as notas.";
+                    resultadoDiv.style.display = 'block'; // Mostra o container de erro
+                });
+        }
+    </script>
+</body>
+</html>
